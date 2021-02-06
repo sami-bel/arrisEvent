@@ -1,3 +1,6 @@
-index:
-    path: /
-    controller: App\Controller\DefaultController::index
+
+##Events
+createEvent:
+    path: /events
+    controller: 'App\Infrastructure\Primary\Http\Controller\Event\CreateEventController'
+    methods: [POST]

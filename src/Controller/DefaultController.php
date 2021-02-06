@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+
 class DefaultController
 {
 
@@ -11,6 +14,6 @@ class DefaultController
         return new Response(
             200,
             [],
-            $this->template->render('home.html.twig'));
+            'OK');
     }
 }
