@@ -4,3 +4,10 @@ createEvent:
     path: /events
     controller: 'App\Infrastructure\Primary\Http\Controller\Event\CreateEventController'
     methods: [POST]
+
+
+## registration
+createUserAndRegister:
+    path: /events/{eventId}/register
+    controller: 'App\Infrastructure\Primary\Http\Controller\Registration\RegisterAtEventController'
+    methods: [POST]

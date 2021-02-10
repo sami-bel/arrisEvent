@@ -12,11 +12,8 @@ use Doctrine\Persistence\ObjectRepository;
 
 class EventPersisterAdapter implements EventPersister
 {
-    private ObjectRepository $repository;
-
     public function __construct(private EventDbFactory $eventDbFactory, private EntityManagerInterface $entityManager)
     {
-        $this->repository = $entityManager->getRepository(EventDb::class);
     }
 
     public function save(Event $event): Event
