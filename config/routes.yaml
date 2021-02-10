@@ -11,3 +11,8 @@ createUserAndRegister:
     path: /events/{eventId}/register
     controller: 'App\Infrastructure\Primary\Http\Controller\Registration\RegisterAtEventController'
     methods: [POST]
+
+listRegistrationByEvent:
+    path: /events/{eventId}/registrations
+    controller: 'App\Infrastructure\Primary\Http\Controller\Registration\listRegistrationByEventController'
+    methods: [ GET ]

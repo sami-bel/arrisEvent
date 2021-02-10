@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Secondary\Registration;
 
 use App\Domain\Registration\Registration;
+use App\Domain\Registration\RegistrationList;
 use App\Infrastructure\Secondary\Entity\RegistrationDb;
 use App\Infrastructure\Secondary\User\UserDbFactory;
 
@@ -32,5 +33,15 @@ class RegistrationFactory
             $user,
             $registration->getEventId()
         );
+    }
+
+    public function hydrateRegistrationListFromRegistrationDbList(array $registrationDbList): RegistrationList
+    {
+        $registrationList = [];
+        foreach ($registrationDbList as $registrationDb) {
+            $registrationList[] = $this->hydrateRegistrationFromRegistrationDb($registrationDb);
+        }
+
+        return new RegistrationList($registrationList);
     }
 }
