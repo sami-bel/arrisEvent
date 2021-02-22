@@ -6,5 +6,7 @@ namespace App\Domain\Registration;
 
 interface RegistrationProvider
 {
+    public function getById(string $registrationId): Registration;
+
     public function listRegistrationByEvent(string $eventId): RegistrationList;
 }

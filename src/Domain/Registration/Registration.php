@@ -4,11 +4,24 @@ declare(strict_types=1);
 
 namespace App\Domain\Registration;
 
+use App\Domain\Registration\Action\Action;
 use App\Domain\User\User;
 
 class Registration
 {
-    public function __construct( private string $id, private User $user, private string $eventId)
+    public const STATUS_WAITING = 'waiting';
+    public const STATUS_SELECTED = 'selected';
+    public const STATUS_ACCEPTED = 'accepted';
+    public const STATUS_REFUSED = 'refused';
+
+    /**
+     * @var Action []
+     */
+    private array $actions;
+
+    private string $status = self::STATUS_WAITING;
+
+    public function __construct(private string $id, private User $user, private string $eventId)
     {
     }
 
@@ -17,31 +30,38 @@ class Registration
         return $this->id;
     }
 
-    public function setId(string $id): Registration
-    {
-        $this->id = $id;
-        return $this;
-    }
-
     public function getUser(): User
     {
         return $this->user;
-    }
-
-    public function setUser(User $user): Registration
-    {
-        $this->user = $user;
-        return $this;
-    }
-
-    public function getEventId(): string
-    {
-        return $this->eventId;
     }
 
     public function setEventId(string $eventId): Registration
     {
         $this->eventId = $eventId;
         return $this;
+    }
+
+    public function addAction(Action $action): self
+    {
+        if (!in_array($action, $this->actions)) {
+            $this->actions[] = $action;
+        }
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): Registration
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function executeAction(Action $action): void
+    {
+        $action->execute($this);
     }
 }
