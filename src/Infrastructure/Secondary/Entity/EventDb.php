@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Secondary\Entity;
 
+use App\Domain\Event\Event;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -30,6 +31,15 @@ class EventDb
      */
     private \DateTime $date;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $placeNumber = 0;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private string $status = Event::STATUS_OPEN;
     /**
      * @ORM\ManyToOne(targetEntity="App\Infrastructure\Secondary\Entity\EventTypeDb")
      */
@@ -68,6 +78,17 @@ class EventDb
         return $this;
     }
 
+    public function getPlaceNumber(): int
+    {
+        return $this->placeNumber;
+    }
+
+    public function setPlaceNumber(int $placeNumber): EventDb
+    {
+        $this->placeNumber = $placeNumber;
+        return $this;
+    }
+
     public function getType(): EventTypeDb
     {
         return $this->type;
@@ -76,6 +97,17 @@ class EventDb
     public function setType(EventTypeDb $type): EventDb
     {
         $this->type = $type;
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): EventDb
+    {
+        $this->status = $status;
         return $this;
     }
 }

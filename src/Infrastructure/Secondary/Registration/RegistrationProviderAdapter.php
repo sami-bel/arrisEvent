@@ -38,4 +38,31 @@ class RegistrationProviderAdapter implements RegistrationProvider
         $list = $this->repository->findBy(['eventId' => $eventId]);
         return $this->registrationFactory->hydrateRegistrationListFromRegistrationDbList($list);
     }
+
+    public function getRegistrationStatistics(array $eventsId = []): array
+    {
+        $statistic = [];
+        $queryBuilder =  $this->repository->createQueryBuilder('re');
+
+        if (!empty($eventsId)) {
+            $queryBuilder->andWhere($queryBuilder->expr()->in('re.eventId', $eventsId));
+        }
+
+        $results = $this->repository->createQueryBuilder('re')
+            ->select(
+                're.eventId,
+                       sum(case when re.status = \'accepted\' then 1 else 0 end) as accepted,
+                       sum(case when re.status = \'confirmed_by_user\' then 1 else 0 end) as confirmed_by_user')
+            ->groupBy('re.eventId')
+            ->getQuery()
+            ->getResult();
+
+        foreach ($results as $result ) {
+            $statistic[$result['eventId']] = [
+                Registration::STATUS_ACCEPTED => $result['accepted'],
+                Registration::STATUS_CONFIRMED_BY_USER => $result['confirmed_by_user']
+            ];
+        }
+        return $statistic;
+    }
 }

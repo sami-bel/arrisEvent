@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Secondary\Entity;
 
+use App\Domain\Registration\Registration;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,6 +26,10 @@ class RegistrationDb
      */
     private string $eventId;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $status = Registration::STATUS_WAITING;
     /**
      * @ORM\ManyToOne(targetEntity="App\Infrastructure\Secondary\Entity\UserDb")
      */
@@ -60,6 +65,17 @@ class RegistrationDb
     public function setUser(UserDb $user): RegistrationDb
     {
         $this->user = $user;
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): RegistrationDb
+    {
+        $this->status = $status;
         return $this;
     }
 }

@@ -28,7 +28,7 @@ class EventTypeDbFactory
                 ->setName($eventType->getName());
     }
 
-    public function hydrateEventTypeFromEventDb(EventTypeDb $eventTypeDb): EventType
+    public function hydrateEventTypeFromEventTypeDb(EventTypeDb $eventTypeDb): EventType
     {
         return new EventType($eventTypeDb->getId(),$eventTypeDb->getName());
     }

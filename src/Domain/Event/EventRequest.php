@@ -7,9 +7,9 @@ namespace App\Domain\Event;
 class EventRequest
 {
     public function __construct(
-
         private string $name,
         private string $date,
+        private int $placeNumber,
         private string $typeId,
     )
     {
@@ -23,6 +23,11 @@ class EventRequest
     public function getDate(): string
     {
         return $this->date;
+    }
+
+    public function getPlaceNumber(): int
+    {
+        return $this->placeNumber;
     }
 
     public function getTypeId(): string

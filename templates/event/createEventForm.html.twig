@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="card card-register mx-auto mt-5 col-md-8">
+            <div class="card-header">Ajouter un évenement</div>
+            <div class="card-body">
+                <form action={{ path("createEvent") }} method="POST" id="create-event-form">
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <label for="event-name">Nom de l'évènement :</label>
+                                    <input type="text" id="firstName" class="form-control" name="event-name" placeholder="Entrer le nom de l'évènement" required="required" autofocus="autofocus">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <label for="event-date">Date :</label>
+                                    <input type="date" id="event-date" class="form-control" name="event-date"  placeholder="Entrer la date" required="required">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <label for="event-type">Nombre de places :</label>
+                                    <input type="number" id="event-place-number" class="form-control" name="event-place-number"  placeholder="Entrer le nombre de place" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <label for="event-type">Type :</label>
+                                    <select id="event-type" class="custom-select" name="event-type">
+                                        <option value="1">Collecte alimentaire</option>
+                                        <option value="2">Don</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" form="create-event-form" class="btn btn-primary btn-block">Valider</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

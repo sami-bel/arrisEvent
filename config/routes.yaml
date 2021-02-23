@@ -5,6 +5,15 @@ createEvent:
     controller: 'App\Infrastructure\Primary\Http\Controller\Event\CreateEventController'
     methods: [POST]
 
+listEvent:
+    path: /events
+    controller: 'App\Infrastructure\Primary\Http\Controller\Event\listEventController'
+    methods: [GET]
+
+dispayCreateEventForm:
+    path: /events/createFrom
+    controller: 'App\Infrastructure\Primary\Http\Controller\Event\DisplayCreateEventFormController'
+    methods: [GET]
 
 ## registration
 createUserAndRegister:

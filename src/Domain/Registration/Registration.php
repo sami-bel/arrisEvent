@@ -13,6 +13,7 @@ class Registration
     public const STATUS_SELECTED = 'selected';
     public const STATUS_ACCEPTED = 'accepted';
     public const STATUS_REFUSED = 'refused';
+    public const STATUS_CONFIRMED_BY_USER = 'confirmed_by_user';
 
     /**
      * @var Action []

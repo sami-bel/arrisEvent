@@ -26,6 +26,6 @@ class EventTypeProviderAdapter implements EventTypeProvider
         if (null == $eventTypeDb) {
             return null;
         }
-        return $this->eventTypeDbFactory->hydrateEventTypeFromEventDb($eventTypeDb);
+        return $this->eventTypeDbFactory->hydrateEventTypeFromEventTypeDb($eventTypeDb);
     }
 }
