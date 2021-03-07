@@ -6,6 +6,8 @@ namespace App\Domain\Registration\RegisterAtAnEvent;
 
 use App\Domain\Registration\Registration;
 use App\Domain\Registration\RegistrationPersister;
+use App\Domain\User\CreateUser\CreateUserRequest;
+use App\Domain\User\CreateUser\ICreateUser;
 use App\Domain\User\User;
 use App\Domain\User\UserPersister;
 use App\Domain\User\UserProvider;
@@ -15,7 +17,7 @@ class EventRegister implements IRegisterAtAnEvent
 {
     public function __construct(
         private RegistrationPersister $registrationPersister,
-        private  UserPersister $userPersister,
+        private ICreateUser $createUser,
         private IdGenerator $idGenerator,
         private UserProvider $userProvider
     )
@@ -24,10 +26,8 @@ class EventRegister implements IRegisterAtAnEvent
 
     public function createUserAndRegister(CreateUserAndRegisterRequest $request): void
     {
-        $id = $this->idGenerator->generate();
-        $user = new User($id, $request->getFirstname(), $request->getLastname(), $request->getEmail(), $request->getPhoneNumber());
-        $this->userPersister->save($user);
-
+        $createUSerRequest = new CreateUserRequest($request->getFirstname(), $request->getLastname(), $request->getEmail(), $request->getPhoneNumber());
+        $user = $this->createUser->create($createUSerRequest);
         $this->register($user, $request->getEventId());
     }
 

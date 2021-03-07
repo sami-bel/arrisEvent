@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
-                <h1>Les évènements de ECAF: <br>
+                <h1>Les évènements : <br>
 {#                    <small>Evenement</small>#}
                 </h1>
             </div>
@@ -23,11 +23,11 @@
                     </thead>
                     <tbody>
                     {% for event in events %}
-                        <tr>
+                        <tr class="event-list-line clickable" data-path="{{ path('listRegistrationByEvent', {'eventId': event.id}) }}">
                             <td>{{ event.name }}</td>
                             <td>{{ event.date | date("m/d/Y")  }}</td>
                             <td>
-                                <span class="badge  badge-info">{{ event.placeNumber }}</span>
+                                <span class="badge  badge-info">{{ event.registeredNumber }}</span>
                             </td>
                             <td>
                                 <span class="badge  badge-info">{{ event.acceptedNumber }}</span>
@@ -40,6 +40,7 @@
                                 <span class="badge  badge-success">{{ event.status }}</span>
                             </td>
                         </tr>
+
                     {% endfor %}
                     </tbody>
                 </table>
@@ -47,3 +48,6 @@
         </div>
     </div>
 {% endblock %}
+ {% block javascripts %}
+     <script src="{{ asset('assets/js/controller/registration/displayRegistrationsOfEvent.js') }}" type="module"></script>
+ {% endblock %}

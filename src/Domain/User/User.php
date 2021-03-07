@@ -11,7 +11,7 @@ class User
         private string $firstname,
         private string $lastname,
         private string $email,
-        private int $phoneNumber
+        private string $phoneNumber
     )
     {
     }
@@ -43,7 +43,7 @@ class User
         return $this;
     }
 
-    public function getPhoneNumber(): int
+    public function getPhoneNumber(): string
     {
         return $this->phoneNumber;
     }

@@ -1,0 +1,23 @@
+#event-body {
+    width: calc(100% - 250px);
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#event-body.active {
+    width: 100%
+}
+
+@media (max-width: 768px) {
+    #event-body {
+        width: 100%
+    }
+
+    #event-body.active {
+        width: calc(100% - 250px);
+    }
+}

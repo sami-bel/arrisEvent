@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% set status_css =
+    {
+        (constant('App\\Domain\\Registration\\Registration::STATUS_WAITING')): 'badge badge-warning',
+        (constant('App\\Domain\\Registration\\Registration::STATUS_SELECTED')): 'badge badge-secondary',
+        (constant('App\\Domain\\Registration\\Registration::STATUS_ACCEPTED')): 'badge badge-primary',
+        (constant('App\\Domain\\Registration\\Registration::STATUS_REFUSED')): 'badge badge-danger',
+        (constant('App\\Domain\\Registration\\Registration::STATUS_CONFIRMED_BY_USER')): 'badge badge-info',
+    }
+%}
+
+{% set status_title =
+    {
+        (constant('App\\Domain\\Registration\\Registration::STATUS_WAITING')): 'En attente',
+        (constant('App\\Domain\\Registration\\Registration::STATUS_SELECTED')): 'Sélectioné',
+        (constant('App\\Domain\\Registration\\Registration::STATUS_ACCEPTED')): 'Accepté',
+        (constant('App\\Domain\\Registration\\Registration::STATUS_REFUSED')): 'Refusé',
+        (constant('App\\Domain\\Registration\\Registration::STATUS_CONFIRMED_BY_USER')): 'Confirmé par l\'utilisateur',
+    }
+%}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Registrations : <br>
+{#                    <small>Evenement</small>#}
+                </h1>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="info table-active">
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Télephone</th>
+                        <th>Email</th>
+                        <th></th>
+                        <th>statut</th>
+                        <th>action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for registration in registrations %}
+                        <tr class="registration-list-line test" id="{{ registration.id }}">
+                            <td>{{ registration.user.lastname }}</td>
+                            <td>{{ registration.user.firstname }}</td>
+                            <td>{{ registration.user.phoneNumber }}</td>
+                            <td>{{ registration.user.email }}</td>
+                            <td></td>
+                            <td>
+                                <span class="{{ status_css[registration.status] }} registration-status-js">{{ status_title[registration.status] }}</span>
+                            </td>
+                            <td class="centre-text">
+                                    <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v dropdown show"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu registration-actions-js" aria-labelledby="dropdownMenuLink">
+                                        {% if constant('App\\Domain\\Registration\\Registration::STATUS_WAITING') is same as (registration.status) %}
+                                            <a class="dropdown-item registration-action-js" href="#" data-path="{{ path('selectRegistration', {'registrationId': registration.id}) }}">Sélectionner</a>
+                                            <a class="dropdown-item registration-action-js" href="#" data-path="{{ path('refuseRegistration', {'registrationId': registration.id}) }}">Refuser</a>
+                                        {% endif %}
+
+                                        {% if constant('App\\Domain\\Registration\\Registration::STATUS_SELECTED') is same as (registration.status) %}
+                                            <a class="dropdown-item registration-action-js" href="#" data-path="{{ path('acceptRegistration', {'registrationId': registration.id}) }}">Accepter</a>
+                                            <a class="dropdown-item registration-action-js" href="#" data-path="{{ path('deselectRegistration', {'registrationId': registration.id}) }}">Déslectionner</a>
+                                            <a class="dropdown-item registration-action-js" href="#" data-path="{{ path('refuseRegistration', {'registrationId': registration.id}) }}">Refuser</a>
+                                        {% endif %}
+
+                                        {% if constant('App\\Domain\\Registration\\Registration::STATUS_ACCEPTED') is same as (registration.status) %}
+                                            <a class="dropdown-item registration-action-js" href="#" data-path="">Relancer</a>
+                                        {% endif %}
+
+                                        {% if constant('App\\Domain\\Registration\\Registration::STATUS_REFUSED') is same as (registration.status) %}
+                                            <a class="dropdown-item registration-action-js" href="#" data-path="{{ path('selectRegistration', {'registrationId': registration.id}) }}">Sélectionner</a>
+                                        {% endif %}
+
+                                    </div>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+ {% block javascripts %}
+     <script src="{{ asset('assets/js/controller/registration/executeAction.js') }}" type="module"></script>
+ {% endblock %}

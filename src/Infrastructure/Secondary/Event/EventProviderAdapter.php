@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Secondary\Event;
 
+use App\Domain\Event\Event;
 use App\Domain\Event\EventList;
 use App\Domain\Event\EventProvider;
 use App\Infrastructure\Secondary\Entity\EventDb;
@@ -26,5 +27,12 @@ class EventProviderAdapter implements EventProvider
     {
         $eventsDb = $this->repository->findAll();
         return $this->eventDbFactory->hydrateEventListFromEventDbList($eventsDb);
+    }
+
+    public function getEvent(string $eventId): Event
+    {
+        /** @var EventDb $eventDb */
+        $eventDb = $this->repository->find($eventId);
+        return $this->eventDbFactory->hydrateEventFromEventDb($eventDb);
     }
 }

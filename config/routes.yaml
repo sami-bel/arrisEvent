@@ -16,7 +16,7 @@ dispayCreateEventForm:
     methods: [GET]
 
 ## registration
-createUserAndRegister:
+registerAtEvent:
     path: /events/{eventId}/register
     controller: 'App\Infrastructure\Primary\Http\Controller\Registration\RegisterAtEventController'
     methods: [POST]
@@ -24,4 +24,34 @@ createUserAndRegister:
 listRegistrationByEvent:
     path: /events/{eventId}/registrations
     controller: 'App\Infrastructure\Primary\Http\Controller\Registration\listRegistrationByEventController'
+    methods: [ GET ]
+
+displayRegisterAtEventForm:
+    path: /events/{eventId}/registerForm
+    controller: 'App\Infrastructure\Primary\Http\Controller\Registration\DisplayRegisterAtEventFormController'
+    methods: [GET]
+
+selectRegistration:
+    path: /registrations/{registrationId}/select
+    controller: 'App\Infrastructure\Primary\Http\Controller\Registration\Action\SelectController'
+    methods: [POST]
+
+deselectRegistration:
+    path: /registrations/{registrationId}/deselect
+    controller: 'App\Infrastructure\Primary\Http\Controller\Registration\Action\DeselectController'
+    methods: [POST]
+
+refuseRegistration:
+    path: /registrations/{registrationId}/refuse
+    controller: 'App\Infrastructure\Primary\Http\Controller\Registration\Action\RefuseController'
+    methods: [POST]
+
+acceptRegistration:
+    path: /registrations/{registrationId}/accept
+    controller: 'App\Infrastructure\Primary\Http\Controller\Registration\Action\AcceptController'
+    methods: [POST]
+
+userConfirmRegistration:
+    path: /registrations/{registrationId}/confirm
+    controller: 'App\Infrastructure\Primary\Http\Controller\Registration\Action\UserConfirmController'
     methods: [ GET ]

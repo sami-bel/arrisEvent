@@ -10,7 +10,8 @@ class RefuseRegistrationAction implements Action
 {
     public function execute(Registration $registration): void
     {
-        if (Registration::STATUS_WAITING === $registration->getStatus()) {
+        $status = $registration->getStatus();
+        if (Registration::STATUS_WAITING === $status || Registration::STATUS_SELECTED === $status ) {
             $registration->setStatus(Registration::STATUS_REFUSED);
         }
     }

@@ -11,7 +11,7 @@ class CreateUserAndRegisterRequest
         private string $firstname,
         private string $lastname,
         private string $email,
-        private int $phoneNumber,
+        private string $phoneNumber,
     )
     {
     }
@@ -36,7 +36,7 @@ class CreateUserAndRegisterRequest
         return $this->email;
     }
 
-    public function getPhoneNumber(): int
+    public function getPhoneNumber(): string
     {
         return $this->phoneNumber;
     }

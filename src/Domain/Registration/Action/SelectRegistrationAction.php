@@ -10,8 +10,9 @@ class SelectRegistrationAction implements Action
 {
     public function execute(Registration $registration): void
     {
-        if (Registration::STATUS_WAITING === $registration->getStatus()) {
-            $registration->setStatus(Registration::STATUS_ACCEPTED);
+        $status = $registration->getStatus();
+        if (Registration::STATUS_WAITING === $status || Registration::STATUS_REFUSED === $status) {
+            $registration->setStatus(Registration::STATUS_SELECTED);
         }
     }
 }

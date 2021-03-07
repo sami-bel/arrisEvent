@@ -15,6 +15,8 @@ class Registration
     public const STATUS_REFUSED = 'refused';
     public const STATUS_CONFIRMED_BY_USER = 'confirmed_by_user';
 
+    public const REGISTERED = 'registered';
+
     /**
      * @var Action []
      */
@@ -36,6 +38,10 @@ class Registration
         return $this->user;
     }
 
+    public function getEventId(): string
+    {
+        return $this->eventId;
+    }
     public function setEventId(string $eventId): Registration
     {
         $this->eventId = $eventId;

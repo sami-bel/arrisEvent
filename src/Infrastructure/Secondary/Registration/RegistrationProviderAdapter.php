@@ -50,7 +50,7 @@ class RegistrationProviderAdapter implements RegistrationProvider
 
         $results = $this->repository->createQueryBuilder('re')
             ->select(
-                're.eventId,
+                'count(re.eventId) as registered, re.eventId,
                        sum(case when re.status = \'accepted\' then 1 else 0 end) as accepted,
                        sum(case when re.status = \'confirmed_by_user\' then 1 else 0 end) as confirmed_by_user')
             ->groupBy('re.eventId')
@@ -60,7 +60,8 @@ class RegistrationProviderAdapter implements RegistrationProvider
         foreach ($results as $result ) {
             $statistic[$result['eventId']] = [
                 Registration::STATUS_ACCEPTED => $result['accepted'],
-                Registration::STATUS_CONFIRMED_BY_USER => $result['confirmed_by_user']
+                Registration::STATUS_CONFIRMED_BY_USER => $result['confirmed_by_user'],
+                Registration::REGISTERED => $result['registered']
             ];
         }
         return $statistic;

@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Primary\Http\Controller\Registration;
 
-use App\Domain\Registration\Handler;
+use App\Domain\Registration\RegistrationHandler;
+use App\Infrastructure\Primary\Http\AbstractController;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
-class RegisterAtEventController
+class RegisterAtEventController extends AbstractController
 {
-    public function __construct(private SerializerInterface $serializer)
+    public function __invoke(string $eventId, ServerRequestInterface $request, RegistrationHandler $handler): Response
     {
-    }
-
-    public function __invoke(string $eventId, ServerRequestInterface $request, Handler $handler): Response
-    {
-        $content = json_decode($request->getBody()->getContents(), true);
-        $handler->createUserAndRegister($eventId, $content['firstname'], $content['lastname'], $content['email'], (int)$content['phoneNumber']);
+        $content = $request->getParsedBody();
+        $handler->createUserAndRegister($eventId, $content['registration-firstName'], $content['registration-lastName'], $content['registration-email'], $content['registration-phone-number']);
         return new Response(
             200,
             [],
-            'registration ok'
+            $this->template->render(
+                'registration/registrationSuccessRegistration.html.twig',
+            )
         );
     }
 }

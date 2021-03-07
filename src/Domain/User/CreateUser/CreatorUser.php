@@ -17,7 +17,8 @@ class CreatorUser implements ICreateUser
     public function create(CreateUserRequest $request): User
     {
         $id = $this->idGenerator->generate();
-        $user = new User($id, $request->getPhoneNumber(), $request->getEmail());
+        $user = new User($id, $request->getFirstname(), $request->getLastname(), $request->getEmail(), $request->getPhoneNumber());
+
         return $this->persister->save($user);
     }
 }

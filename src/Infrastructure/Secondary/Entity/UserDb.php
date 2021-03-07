@@ -36,9 +36,9 @@ class UserDb
     private string $email;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
-    private int $phoneNumber;
+    private string $phoneNumber;
 
     public function getId(): string
     {
@@ -51,18 +51,11 @@ class UserDb
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getFirstname(): string
     {
         return $this->firstname;
     }
 
-    /**
-     * @param string $firstname
-     * @return UserDb
-     */
     public function setFirstname(string $firstname): UserDb
     {
         $this->firstname = $firstname;
@@ -91,12 +84,12 @@ class UserDb
         return $this;
     }
 
-    public function getPhoneNumber(): int
+    public function getPhoneNumber(): string
     {
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(int $phoneNumber): UserDb
+    public function setPhoneNumber(string $phoneNumber): UserDb
     {
         $this->phoneNumber = $phoneNumber;
         return $this;

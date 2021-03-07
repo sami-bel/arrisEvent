@@ -6,6 +6,8 @@ namespace App\Domain\Registration;
 
 use App\Domain\Registration\AcceptRegistration\AcceptRegistrationRequest;
 use App\Domain\Registration\AcceptRegistration\IAcceptRegistration;
+use App\Domain\Registration\DeselectRegistration\DeselectRegistrationRequest;
+use App\Domain\Registration\DeselectRegistration\IDeselectRegistration;
 use App\Domain\Registration\ListRegistration\IListRegistration;
 use App\Domain\Registration\ListRegistration\ListRegistrationByEventRequest;
 use App\Domain\Registration\RefuseRegistration\IRefuseRegistration;
@@ -15,20 +17,25 @@ use App\Domain\Registration\RegisterAtAnEvent\IRegisterAtAnEvent;
 use App\Domain\Registration\RegisterAtAnEvent\RegisterWithExistingUserRequest;
 use App\Domain\Registration\SelectRegistration\ISelectRegistration;
 use App\Domain\Registration\SelectRegistration\SelectRegistrationRequest;
+use App\Domain\Registration\UserConfirmRegistration\UserConfirmRegistration;
+use App\Domain\Registration\UserConfirmRegistration\UserConfirmRegistrationRequest;
 
-class Handler
+class RegistrationHandler
 {
     public function __construct(
         private IRegisterAtAnEvent $registerAtAnEvent,
         private IListRegistration $listRegistration,
         private ISelectRegistration $selectRegistration,
+        private IDeselectRegistration $deselectRegistration,
         private IAcceptRegistration $acceptRegistration,
         private IRefuseRegistration $refuseRegistration,
+        private UserConfirmRegistration $confirmRegistration
+
     )
     {
     }
 
-    public function createUserAndRegister(string $eventId, string $firstname, string $lastname, string $email, int $phoneNumber): void
+    public function createUserAndRegister(string $eventId, string $firstname, string $lastname, string $email, string $phoneNumber): void
     {
         $request = new CreateUserAndRegisterRequest($eventId, $firstname, $lastname, $email, $phoneNumber);
         $this->registerAtAnEvent->createUserAndRegister($request);
@@ -46,21 +53,33 @@ class Handler
         return $this->listRegistration->listByEvent($request);
     }
 
-    public function selectRegistration(string $registrationId): void
+    public function selectRegistration(string $registrationId): Registration
     {
         $request = new SelectRegistrationRequest($registrationId);
-        $this->selectRegistration->select($request);
+        return $this->selectRegistration->select($request);
     }
 
-    public function acceptRegistration(string $registrationId): void
+    public function deselectRegistration(string $registrationId): Registration
+    {
+        $request = new DeselectRegistrationRequest($registrationId);
+        return $this->deselectRegistration->deselect($request);
+    }
+
+    public function acceptRegistration(string $registrationId): Registration
     {
         $request = new AcceptRegistrationRequest($registrationId);
-        $this->acceptRegistration->accept($request);
+        return $this->acceptRegistration->accept($request);
     }
 
-    public function refuseRegistration(string $registrationId): void
+    public function refuseRegistration(string $registrationId): Registration
     {
         $request = new RefuseRegistrationRequest($registrationId);
-        $this->refuseRegistration->refuse($request);
+        return $this->refuseRegistration->refuse($request);
+    }
+
+    public function userConfirmRegistration(string $registrationId): Registration
+    {
+        $request = new UserConfirmRegistrationRequest($registrationId);
+        return $this->confirmRegistration->confirm($request);
     }
 }

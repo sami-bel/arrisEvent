@@ -26,7 +26,8 @@ class EventReader implements IListEvent
             foreach ($eventLists->getIterator() as $event) {
                 if (array_key_exists($event->getId(), $statistics)) {
                     $event->setConfirmedNumber((int)$statistics[$event->getId()]['confirmed_by_user'])
-                        ->setAcceptedNumber((int)$statistics[$event->getId()]['accepted']);
+                        ->setAcceptedNumber((int)$statistics[$event->getId()]['accepted'])
+                        ->setRegisteredNumber((int)$statistics[$event->getId()]['registered']);
                 }
             }
         }

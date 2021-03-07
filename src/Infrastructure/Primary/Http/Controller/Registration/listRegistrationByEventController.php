@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Primary\Http\Controller\Registration;
 
-use App\Domain\Registration\Handler;
+use App\Domain\Registration\RegistrationHandler;
+use App\Infrastructure\Primary\Http\AbstractController;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
-class listRegistrationByEventController
+class listRegistrationByEventController extends AbstractController
 {
-    public function __construct(private SerializerInterface $serializer)
+    public function __invoke(string $eventId, ServerRequestInterface $request, RegistrationHandler $handler): Response
     {
-    }
-
-    public function __invoke(string $eventId, ServerRequestInterface $request, Handler $handler): Response
-    {
-        $handler->listRegistrationByEvent($eventId)->getRegistrations();
         return new Response(
             200,
             [],
-            $this->serializer->serialize($handler->listRegistrationByEvent($eventId)->getRegistrations(), 'json'));
+            $this->template->render(
+                'registration/listRegistration.html.twig',
+                [
+                    'registrations' => $handler->listRegistrationByEvent($eventId)->getRegistrations()
+                ]
+            )
+        );
     }
 }
